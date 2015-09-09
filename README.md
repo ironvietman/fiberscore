@@ -6,6 +6,7 @@ Implemeted in MatLab as part of my masters thesis.
 ## Installation
 
 Requirements:
+
 1. Matlab
 2. MatLab Image processing toolbox
 
