@@ -24,8 +24,10 @@ Requirements:
 5. Submit a pull request :D
 
 ## Credits
+Please give credit to me (Robert Pham) when using my functions in your own projects. Let me know if you do. I'm always interested in seeing my code being useful/helpful.
 
-Reference: Quantitative Analysis of Cytoskeletal Organization by Digital Fluorescent Microscopy by Lichtenstein et al.
+Reference for FiberScore: 
+- Quantitative Analysis of Cytoskeletal Organization by Digital Fluorescent Microscopy by Lichtenstein et al.
 
 ## License
 
