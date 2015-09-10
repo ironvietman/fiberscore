@@ -29,7 +29,7 @@
 
 %% Load
 clc;clear;close all;
-TYPE = 'synth';
+TYPE = 'test';
 LENGTH = ['output_data/' TYPE '/lengths.mat'];
 ANGLE = ['output_data/' TYPE '/angles.mat'];
 PARAM = ['output_data/' TYPE '/param.mat'];
@@ -51,15 +51,13 @@ TRAIN_INPUT = ['include/input_' TYPE '.txt'];
 datapath = textread(TRAIN_INPUT,'%s');
 image_name = datapath{i}; % name of the file you want to us
 original= imread(image_name);
-% original = rgb2gray(original(:,:,1:3));
+original = rgb2gray(original(:,:,1:3));
 figure; imagesc(original);colormap gray(256);
 
 
 %% Histogram of Fiber Length
 figure;
-len_dist = lengths{i};
-% len_dist(len_dist>100) = [];
-hist(len_dist, length(len_dist)/5)
+hist(lengths{i}, length(lengths{i})/5)
 title('Histogram of Fiber Length')
 %% Histogram of Fiber Orientation
 figure;

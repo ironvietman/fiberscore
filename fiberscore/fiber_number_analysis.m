@@ -30,7 +30,7 @@
 clc; clear; close all; %clearing up the workspace and desktop
 
 %% Location of files
-TYPE = 'test'; cell_id = 1;
+TYPE = 'synth'; cell_id = 1;
 % mkdir(['output_data/' TYPE])
 INDEX_CLEAN = ['output_data/' TYPE '/index_clean.mat'];
 ORIEN_CLEAN = ['output_data/' TYPE '/orient_clean.mat'];
@@ -47,19 +47,19 @@ load(PARAM)
 datapath = textread(TRAIN_INPUT,'%s');
 tic;
 
-my_min_length = linspace(10,200,30)
-[num_fibers] = length_analysis(index_clean{cell_id},my_min_length);
+
+[num_fibers min_length] = length_analysis(index_clean{cell_id});
 
 image_name = ['Varying Min Fiber Length:' datapath{cell_id}];
 
-figure;loglog(my_min_length,num_fibers);
+figure;loglog(min_length,num_fibers);
 axis([10 1000 1 500])
 title(image_name,'Interpreter','none')
 ylabel('# of fibers')
 xlabel('Min fiber length values')
  slope = diff(num_fibers);
 idxfiber = find(slope > -60,1, 'first');
-fiber_length(cell_id) = my_min_length(idxfiber);
+fiber_length(cell_id) = min_length(idxfiber);
 
 save(['output_data/' TYPE '/fiber_length.mat'], 'fiber_length');
 save(['output_data/' TYPE '/num_fibers.mat'], 'num_fibers');
