@@ -48,10 +48,10 @@ tic;
 K=6;        % Angular resolution
 L = 6;      % Kernal size. Needs to be an even number so that there will be a center when building
 w = 1;      % one pixel value
-TC = .2;    % threshold for correlation coefficient with a Gaussian profile
+TC = .4;    % threshold for correlation coefficient with a Gaussian profile
 M = .01;    % threshold for NSD
-N = 1.1;     % threshold for ratio of NSD between the perpendicular rods
-
+N = 1.6;     % threshold for ratio of NSD between the perpendicular rods
+T = 0.3;
 
 %% Load Data
 disp('Reading input files...')
@@ -83,31 +83,40 @@ if D==1
     original = IMAGE;
 elseif D >=3
 RGB = IMAGE; %Use these lines if you have colored image
-% original = rgb2gray(RGB(:,:,1:3)); % all channels
-original = RGB(:,:,1); % red Channel 
-
+original = rgb2gray(RGB(:,:,1:3));
 end
 
-% T = max(max(original))*.30 ; 
- T = .3;
-% T = max(max(original))*.1 ;     % threshold for background-subracted intensity value for a 
+% T = max(max(im2double(original)))*.20;     % threshold for background-subracted intensity value for a 
               % fiber in the acquired image. This values depends on the 
               % image and is about 100 for a 12-bit sturated image
 
 %% Enhancement
+% original =  double(original)/max(max(double(original)));
    orig_eq = adapthisteq(original);
-% orig_eq = original; % This is for Coronal 
-              
+    orig_eq = double(orig_eq)/max(max(double(orig_eq)));
+    orig_eq = orig_eq+enhance_image(orig_eq);
+  figure; imshow(orig_eq);
+%% Slice
+% original =  double(original)/max(max(double(original)));
+% orig_eq = zeros(size(original));
+%  idxslice = find((original<.35) & (original >.3)) ;
+%  orig_eq(idxslice) = original(idxslice);
+% orig_eq = original;
+% H = fspecial('unsharp');
+% orig_eq = imfilter(original,H,'replicate');
+% subplot(2,2,4); 
+% imshow(sharpened); title('Sharpened Image');
+
 %% FiberScore
 [index orientation mean_fs] = fiberscore_conv(image_name,orig_eq,K,L,TC,M,N,T);
 
 
 %% Add to Cell Struct
+imshow(index); colormap(gray)
 index_cell{imgid} = index;
 orientation_cell{imgid} = orientation;
 mean_cell{imgid} = mean_fs;
- imshow(index)
-end
+
 %%Make Param Struct
 param.K=K;
 param.L=L;
@@ -122,5 +131,5 @@ save (['output_data/' TYPE '/index_cell.mat'], 'index_cell')
 save (['output_data/' TYPE '/orientation_cell.mat'], 'orientation_cell')
 save (['output_data/' TYPE '/mean_cell.mat'], 'mean_cell')
 save (['output_data/' TYPE '/param.mat'], 'param')
-
+end
  fprintf('Took %g minutes to extract the fibers and find the orientation\n',toc/60);

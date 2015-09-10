@@ -31,7 +31,7 @@
 
 clc;clear;close all
 %% Location of files
-TYPE = 'synth';
+TYPE = 'test';
 INDEX_MODEL = ['output_data/' TYPE '/index_cell.mat'];
 ORIEN_MODEL = ['output_data/' TYPE '/orientation_cell.mat'];
 MEAN_MODEL = ['output_data/' TYPE '/mean_cell.mat'];
@@ -70,25 +70,30 @@ if D >=3
     original = rgb2gray(original(:,:,1:3));
 end
  orig_eq = adapthisteq(original);
+    orig_eq = double(orig_eq)/max(max(double(orig_eq)));
+    modi = enhance_image(orig_eq);
+   orig_eq = orig_eq+modi;
 
 %% Display
+close all;
 figure; imshow(original); colormap gray;
+figure; imagesc(modi);
 figure; imshow(orig_eq); colormap gray;
 figure; imshow(index_cell{fig_num}); colormap gray;
 figure; imshow(orientation_cell{fig_num}*180/pi); colormap jet; caxis([-100 180]); colorbar; 
 figure; imshow(mean_cell{fig_num}); colormap jet;  %caxis([1 256]);% colorbar;
-figure; imshow(index_clean{fig_num}); colormap gray(256);
-figure; imshow(orient_clean{fig_num}*180/pi); colormap jet; caxis([-100 180]); colorbar; 
-figure; imshow(mean_clean{fig_num}); colormap jet; % caxis([1 256]);% colorbar;
+% figure; imshow(index_clean{fig_num}); colormap gray(256);
+% figure; imshow(orient_clean{fig_num}*180/pi); colormap jet; caxis([-100 180]); colorbar; 
+% figure; imshow(mean_clean{fig_num}); colormap jet; % caxis([1 256]);% colorbar;
 
 %% overlay
-
-% imshow(orig_eq, 'InitialMag', 'fit')
-% green = cat(3, zeros(size(orig_eq)), ones(size(orig_eq)), zeros(size(orig_eq)));
-% hold on
-% h = imshow(green);
-% hold off
-% set(h, 'AlphaData', index_clean{fig_num})
+figure;
+imshow(original, 'InitialMag', 'fit')
+green = cat(3, zeros(size(original)), ones(size(original)), zeros(size(original)));
+hold on
+h = imshow(green);
+hold off
+set(h, 'AlphaData', index_clean{fig_num})
 
 %% Angle stuff
 
