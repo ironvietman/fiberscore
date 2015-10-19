@@ -1,7 +1,7 @@
 # Fiberscore
 
 FiberScore (template-based detection method used to detect linear objects in cells)
-Implemeted in MatLab as part of my masters thesis. See wiki for more information.
+Implemented in MatLab as part of my masters thesis. See wiki for more information.
 
 ## Installation
 
